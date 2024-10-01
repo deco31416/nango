@@ -1,0 +1,30 @@
+html,
+body,
+#root {
+    width: 100%;
+    height: 100%;
+    background-color: #010101;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.transparent-code .language-json {
+    background-color: transparent !important;
+}
+
+.transparent-code .language-typescript {
+    background-color: transparent !important;
+}
+
+.break-all-words .token.string {
+    word-break: break-all;
+    white-space: 'normal';
+}
+
+.mantine-Prism-code {
+    font-family: 'Roboto Mono';
+}

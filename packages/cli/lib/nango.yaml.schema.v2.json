@@ -1,0 +1,272 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "integrations": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "post-connection-scripts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "errorMessage": {
+                            "_": "post-connection-scripts must be an array of strings."
+                        }
+                    },
+                    "syncs": {
+                        "type": "object",
+                        "patternProperties": {
+                            "^[a-zA-Z0-9_-]+$": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "errorMessage": {
+                                            "type": "description must be a string."
+                                        }
+                                    },
+                                    "sync_type": {
+                                        "type": "string",
+                                        "enum": ["incremental", "full"],
+                                        "errorMessage": {
+                                            "enum": "sync_type must be either 'incremental' or 'full'."
+                                        }
+                                    },
+                                    "track_deletes": {
+                                        "type": "boolean",
+                                        "errorMessage": {
+                                            "type": "track_deletes must be a boolean."
+                                        }
+                                    },
+                                    "auto_start": {
+                                        "type": "boolean",
+                                        "errorMessage": {
+                                            "type": "auto_start must be a boolean."
+                                        }
+                                    },
+                                    "version": {
+                                        "oneOf": [
+                                            {
+                                                "type": "integer",
+                                                "errorMessage": {
+                                                    "_": " "
+                                                }
+                                            },
+                                            {
+                                                "type": "string",
+                                                "pattern": "^(\\d+|\\d+\\.\\d+\\.\\d+)$",
+                                                "errorMessage": {
+                                                    "_": " "
+                                                }
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "_": "version must be an interger, string or a semver string. Example: \"10\", \"1.0.0\", or 10"
+                                        }
+                                    },
+                                    "runs": {
+                                        "type": "string",
+                                        "errorMessage": {
+                                            "type": "runs must be a string and include the word \"every\"."
+                                        }
+                                    },
+                                    "endpoint": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string",
+                                                "pattern": "^(GET\\s)?/[a-zA-Z0-9-./_]+$",
+                                                "errorMessage": {
+                                                    "_": " "
+                                                }
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "pattern": "^(GET\\s)?/[a-zA-Z0-9-./_]+$",
+                                                    "errorMessage": {
+                                                        "_": " "
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "_": "endpoint must be a URL (or an array of URLs) with an HTTP verb, i.e: \"GET /tickets/ticket\""
+                                        }
+                                    },
+                                    "scopes": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "_": "scopes must be a string or an array of strings."
+                                        }
+                                    },
+                                    "input": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "errorMessage": {
+                                            "type": "input must be a string and should define any required metadata for the sync."
+                                        }
+                                    },
+                                    "output": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "_": "output must be a string or an array of strings."
+                                        }
+                                    },
+                                    "webhook-subscriptions": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "_": "webhook-subscriptions must be a string or an array of strings."
+                                        }
+                                    }
+                                },
+                                "required": ["endpoint", "output", "runs"],
+                                "errorMessage": {
+                                    "required": {
+                                        "endpoint": "An endpoint property is required to specify how to retrieve the data from the sync.",
+                                        "output": "An output property is required to specify what is the outcome of the sync."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "type": "object",
+                        "patternProperties": {
+                            "^[a-zA-Z0-9_-]+$": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "errorMessage": {
+                                            "type": "description must be a string."
+                                        }
+                                    },
+                                    "version": {
+                                        "oneOf": [
+                                            {
+                                                "type": "integer",
+                                                "errorMessage": {
+                                                    "_": " "
+                                                }
+                                            },
+                                            {
+                                                "type": "string",
+                                                "pattern": "^(\\d+|\\d+\\.\\d+\\.\\d+)$",
+                                                "errorMessage": {
+                                                    "_": " "
+                                                }
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "_": "version must be an interger, string or a semver string. Example: \"10\", \"1.0.0\", or 10"
+                                        }
+                                    },
+                                    "endpoint": {
+                                        "type": "string",
+                                        "pattern": "^((GET|POST|PUT|PATCH|DELETE)\\s)?/[a-zA-Z0-9-:{}./_]+$",
+                                        "errorMessage": {
+                                            "type": "endpoint must be a URI with an HTTP verb, i.e: \"POST /tickets/ticket\"",
+                                            "pattern": "endpoint must be a URI with an HTTP verb, i.e: \"POST /tickets/ticket\""
+                                        }
+                                    },
+                                    "scopes": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "_": "scopes must be a string or an array of strings."
+                                        }
+                                    },
+                                    "input": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "errorMessage": {
+                                            "type": "input must be a string and should define any required input for the action."
+                                        }
+                                    },
+                                    "output": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "_": "output must be a string or an array of strings."
+                                        }
+                                    }
+                                },
+                                "required": ["endpoint"],
+                                "errorMessage": {
+                                    "required": {
+                                        "endpoint": "An endpoint property is required to specify how to trigger the action."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "models": {
+            "type": "object",
+            "patternProperties": {
+                "^[a-zA-Z0-9_-]$": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "lib",
+        "outDir": "dist"
+    },
+    "references": [
+        {
+            "path": "../database"
+        },
+        {
+            "path": "../logs"
+        },
+        {
+            "path": "../nango-yaml"
+        },
+        {
+            "path": "../node-client"
+        },
+        {
+            "path": "../types"
+        },
+        {
+            "path": "../utils"
+        },
+        {
+            "path": "../webhooks"
+        },
+        {
+            "path": "../records"
+        },
+        {
+            "path": "../orchestrator"
+        }
+    ],
+    "include": ["lib/**/*", "../utils/lib/vitest.d.ts"]
+}
